@@ -6,13 +6,22 @@ add_compile_options(-std=c++11)
 add_definitions(-D_OS_UNIX)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs message_generation actionlib_msgs actionlib kortex_driver)
+find_package(catkin REQUIRED COMPONENTS 
+  roscpp
+  rospy 
+  std_msgs 
+  message_generation 
+  actionlib_msgs 
+  actionlib 
+  kortex_driver
+)
 
 ## Declare a catkin package
 catkin_package()
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 include_directories(include ${PROJECT_SOURCE_DIR}/src)
+include_directories(include ${PROJECT_SOURCE_DIR}/include)
 include_directories(include ${PROJECT_SOURCE_DIR}/../kortex_api/include/client)
 include_directories(include ${PROJECT_SOURCE_DIR}/../kortex_api/include/client_stubs)
 include_directories(include ${PROJECT_SOURCE_DIR}/../kortex_api/include/messages)
@@ -20,7 +29,10 @@ include_directories(include ${PROJECT_SOURCE_DIR}/../kortex_api/include/common)
 
 add_executable(SimpleMoveCPP src/SimpleMove.cpp)
 add_dependencies(SimpleMoveCPP ${catkin_EXPORTED_TARGETS})
+add_library(RobotControl src/RobotControl.cpp)
 target_link_libraries(SimpleMoveCPP ${catkin_LIBRARIES})
+target_link_libraries(RobotControl ${catkin_LIBRARIES})
+target_link_libraries(SimpleMoveCPP RobotControl)
 
 # if(CATKIN_ENABLE_TESTING)
 # 	find_package(rostest REQUIRED)
