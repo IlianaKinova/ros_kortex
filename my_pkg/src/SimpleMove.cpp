@@ -47,9 +47,8 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
     robot.init(n);
 
-    //auto spint = std::thread(spinThread);
+    
     robot.subscribeToActionTopic(NotificationCallback);
-    auto sub = n.subscribe("/my_gen3/action_topic", 1000, NotificationCallback);
     
     bool result = robot.homeRobot();
     

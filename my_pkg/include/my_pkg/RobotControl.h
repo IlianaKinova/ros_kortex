@@ -31,6 +31,7 @@ class RobotControl
     std::atomic<int>& m_lastActionNotificationID;
     ros::Subscriber actionNotifSub;
     ros::ServiceClient service_client_activate_notif;
+    ros::ServiceClient service_client_execute_action;
 
     private:
     bool readRosParams();

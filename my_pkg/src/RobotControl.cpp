@@ -52,6 +52,7 @@ void RobotControl::onNotificationCallback(const kortex_driver::ActionNotificatio
 
 bool RobotControl::homeRobot()
 {
+    ROS_INFO("Home start");
     ros::ServiceClient service_client_read_action = m_node->serviceClient<kortex_driver::ReadAction>("/" + m_robotName + "/base/read_action");
     kortex_driver::ReadAction service_read_action;
 
@@ -66,7 +67,7 @@ bool RobotControl::homeRobot()
     }
 
     // We can now execute the Action that we read 
-    ros::ServiceClient service_client_execute_action = m_node->serviceClient<kortex_driver::ExecuteAction>("/" + m_robotName + "/base/execute_action");
+    service_client_execute_action = m_node->serviceClient<kortex_driver::ExecuteAction>("/" + m_robotName + "/base/execute_action");
     kortex_driver::ExecuteAction service_execute_action;
 
     service_execute_action.request.input = service_read_action.response.output;
@@ -82,7 +83,9 @@ bool RobotControl::homeRobot()
         return false;
     }
 
+    ROS_INFO("Home end");
     return true;
+    //return waitActionEndOrAbort();
 }
 
 // RobotControl::RobotControl()
@@ -145,7 +148,7 @@ bool RobotControl::waitActionEndOrAbort()
 bool RobotControl::init(ros::NodeHandle& node)
 {
     bool res = true;
-    if (m_node != nullptr) return true;
+    // if (m_node != nullptr) return true;
     m_node = &node;
     // Get parameters
     res &= readRosParams();
